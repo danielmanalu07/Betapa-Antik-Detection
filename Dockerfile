@@ -1,11 +1,16 @@
 FROM python:3.10
 
-ENV PYTHONUNBUFFERED True
+# Set working directory
+WORKDIR /app
 
-ENV APP_HOME /app
-WORKDIR ${APP_HOME}
-COPY . ./
+# Salin semua file ke container
+COPY . .
 
-RUN pip install -r requirement.txt
+# Install dependencies
+RUN pip install --no-cache-dir -r requirement.txt
 
-CMD exec gunicorn --bind :$PORT --workers 1 --threads 8 --timeout 0 main:app
+# Expose port 5000 untuk Flask
+EXPOSE 5000
+
+# Jalankan aplikasi
+CMD ["python", "main.py"]
